@@ -22,5 +22,17 @@ public class Response<T> {
         return new Response<Void>(resultCode, null);
     }
 
+    public String toStream() {
+        if (result == null) {
+            return "{" +
+                    "\"resultCode\":" + "\"" + resultCode + "\"," +
+                    "\"result\":" + null +
+                    "}";
+        }
+        return "{" +
+                "\"resultCode\":" + "\"" + resultCode + "\"," +
+                "\"result\":" + "\"" + result + "\"," +
+                "}";
+    }
 
 }

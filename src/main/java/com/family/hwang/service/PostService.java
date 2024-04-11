@@ -18,17 +18,13 @@ public class PostService {
     private final PostEntityRepository postEntityRepository;
     private final UserEntityRepository userEntityRepository;
 
-
     @Transactional
     public void create(PostCreateRequest request, String userName) {
         //find user
         UserEntity userEntity = userEntityRepository.findByUserName(userName).orElseThrow(() ->
                 new HwangFamilyException(ErrorCode.USER_NOT_FOUND, String.format("%s not founded", userName)));
 
-        //post save
-        postEntityRepository.save(new PostEntity());
-
+        postEntityRepository.save(PostEntity.of(request.getTitle(), request.getBody(), userEntity));
     }
-
 
 }

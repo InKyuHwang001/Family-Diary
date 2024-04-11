@@ -2,6 +2,7 @@ package com.family.hwang.model.entity;
 
 import com.family.hwang.controller.request.UserSignUpRequest;
 import com.family.hwang.model.User;
+import com.family.hwang.model.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -30,6 +31,10 @@ public class UserEntity {
 
     private String email;
 
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private UserRole role = UserRole.USER;
+
     @Column(name = "registered_at")
     private Timestamp registeredAt;
 
@@ -50,6 +55,13 @@ public class UserEntity {
         this.updatedAt = Timestamp.from(now());
     }
 
+    @Builder
+    public UserEntity(Long id, String userName, String password, String email) {
+        this.id = id;
+        this.userName = userName;
+        this.password = password;
+        this.email = email;
+    }
 
     private UserEntity(String userName, String password, String email) {
         this.userName = userName;
