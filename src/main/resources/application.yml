@@ -1,1 +1,24 @@
-spring.application.name=hwang
+spring:
+  jpa:
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+  sql:
+    init:
+      platform: postgres
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://cb4l59cdg4fg1k.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com/d4mtbqksnvj5vu
+    username: uaeahtmpboont8
+    password: p196b4b7e7688fe4b3cfb457047f6694617e56cbf5ca9970fa65fa8f835b23fea
+
+jwt:
+  secret-key: ghkddlsrb_cjswo_gjgnswp_qkqh0ajdcjddl
+  # 30 days
+  token:
+    expired-time-ms: 2592000000
