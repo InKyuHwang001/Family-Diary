@@ -46,6 +46,9 @@ class UserControllerTest {
         userEntityRepository.deleteAll();
     }
 
+    /**
+     * 회원 가입
+     */
     @Test
     public void 회원가입_성공() throws Exception {
 
@@ -88,6 +91,9 @@ class UserControllerTest {
                 .andExpect(status().isConflict());
     }
 
+    /**
+     * 로그인 성공
+     */
     @Test
     public void 로그인_성공() throws Exception {
         String userName = "userName";
@@ -157,6 +163,7 @@ class UserControllerTest {
                 .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
+
 
 
 }

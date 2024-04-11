@@ -31,9 +31,11 @@ class PostServiceTest {
     @MockBean
     PostEntityRepository postEntityRepository;
 
-
+    /**
+     * 글 작성
+     */
     @Test
-    void 포스트_생성시_정상동작한다() {
+    void 글작성_성공() {
 
         String tittle = "tittle";
         String body = "body";
@@ -52,7 +54,7 @@ class PostServiceTest {
 
 
     @Test
-    void 포스트생성시_유저가_존재하지_않으면_에러를_내뱉는다() {
+    void 글작성_실패_없는_userName() {
         String tittle = "tittle";
         String body = "body";
         String userName = "userName";
@@ -69,4 +71,7 @@ class PostServiceTest {
         assertEquals(ErrorCode.USER_NOT_FOUND, exception.getErrorCode());
     }
 
+    /**
+     * 글 수정
+     */
 }

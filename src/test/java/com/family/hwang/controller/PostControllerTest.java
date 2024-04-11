@@ -30,6 +30,10 @@ class PostControllerTest {
     @MockBean
     PostService postService;
 
+    /**
+     * 글 작성
+     * @throws Exception
+     */
 
     @Test
     @WithMockUser
@@ -51,7 +55,7 @@ class PostControllerTest {
 
     @Test
     @WithAnonymousUser
-    void 포스트작성시_실패_로그인이_안된_상태() throws Exception {
+    void 글작성_실패_로그인이_안된_상태() throws Exception {
         String title = "title";
         String body = "body";
         var request = PostCreateRequest.builder()
@@ -66,5 +70,7 @@ class PostControllerTest {
                 .andExpect(status().isUnauthorized());
     }
 
-
+    /**
+     * 글 수정
+     */
 }
