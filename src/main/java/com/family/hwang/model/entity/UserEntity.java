@@ -51,21 +51,14 @@ public class UserEntity {
     }
 
 
-    @Builder
-    private UserEntity(Long id, String userName, String password, String email) {
-        this.id = id;
+    private UserEntity(String userName, String password, String email) {
         this.userName = userName;
         this.password = password;
         this.email = email;
     }
 
     public static UserEntity of(String userName, String password, String email){
-
-        return UserEntity.builder()
-                .userName(userName)
-                .email(email)
-                .password(password)
-                .build();
+        return new UserEntity(userName, password, email);
     }
 
 }
