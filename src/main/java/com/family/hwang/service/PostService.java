@@ -11,6 +11,8 @@ import com.family.hwang.repository.PostEntityRepository;
 import com.family.hwang.repository.UserEntityRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import static com.family.hwang.excecption.ErrorCode.*;
@@ -71,6 +73,14 @@ public class PostService {
                 new HwangFamilyException(POST_NOT_FOUND, String.format("%s not founded", postId)));
     }
 
+    public Page<Post> list(Pageable pageable) {
+        return postEntityRepository.findAll(pageable).map(Post::fromEntity);
+    }
 
+    public Page<Post> my(String userName, Pageable pageable) {
+        UserEntity userEntity = getUserEntityOrExceptions(userName);
+
+        return postEntityRepository.findAllByUser(userEntity, pageable).map(Post::fromEntity);
+    }
 
 }
