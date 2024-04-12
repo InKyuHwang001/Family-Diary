@@ -1,16 +1,18 @@
-<script setup>
-</script>
-
 <template>
-  <div class="greetings">
-    This is What I want
-  </div>
+  <el-main class="content">
+    <el-row>
+      <el-col>
+        <RouterView />
+      </el-col>
+    </el-row>
+  </el-main>
 </template>
 
-<style scoped>
+<script setup lang="js">
+</script>
 
-.header {
-  padding: 0;
-  height: 60px;
+<style scoped>
+.content {
+  height: calc(100vh - 60px);
 }
 </style>
