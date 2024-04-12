@@ -9,12 +9,10 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserResponse {
 
-    private Long id;
     private String userName;
 
     public static UserResponse fromUser(User user) {
         return new UserResponse(
-                user.getId(),
                 user.getUsername()
         );
     }
