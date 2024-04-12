@@ -62,15 +62,4 @@ public class UserEntity {
         this.password = password;
         this.email = email;
     }
-
-    private UserEntity(String userName, String password, String email) {
-        this.userName = userName;
-        this.password = password;
-        this.email = email;
-    }
-
-    public static UserEntity of(String userName, String password, String email){
-        return new UserEntity(userName, password, email);
-    }
-
 }

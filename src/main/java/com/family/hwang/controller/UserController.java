@@ -23,6 +23,7 @@ public class UserController {
     @PostMapping("/signup")
     public Response<UserSignUpResponse> signup (@RequestBody UserSignUpRequest request){
         User user = userService.signup(request);
+
         return Response.success(UserSignUpResponse.fromUser(user));
     }
 
@@ -31,7 +32,7 @@ public class UserController {
     public Response<UserLoginResponse> login(@RequestBody UserLogInRequest request) {
         String token = userService.login(request);
 
-        return Response.success(new UserLoginResponse(token));
+        return Response.success(UserLoginResponse.fromString(token));
     }
 
 

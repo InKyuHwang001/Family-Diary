@@ -45,11 +45,15 @@ public class UserService {
         });
 
         //sign up
-        UserEntity entity = userEntityRepository.save(UserEntity.of(request.getUserName(),
-                encoder.encode(request.getPassword()),
-                request.getEmail()));
+        UserEntity entity = UserEntity.builder()
+                .userName(request.getUserName())
+                .password(encoder.encode(request.getPassword()))
+                .email(request.getEmail())
+                .build();
 
-        return User.fromEntity(entity);
+        UserEntity saved = userEntityRepository.save(entity);
+
+        return User.fromEntity(saved);
     }
 
     public String login(UserLogInRequest request) {

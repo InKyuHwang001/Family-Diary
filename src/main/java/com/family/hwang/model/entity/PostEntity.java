@@ -1,10 +1,7 @@
 package com.family.hwang.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -16,7 +13,7 @@ import java.time.Instant;
 @Table(name = "\"post\"")
 @SQLDelete(sql = "UPDATE \"post\" SET removed_at = NOW() WHERE id=?")
 @Where(clause = "removed_at is NULL")
-@NoArgsConstructor() //access = AccessLevel.PROTECTED
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostEntity {
 
     @Id
@@ -55,13 +52,20 @@ public class PostEntity {
     }
 
 
-    private PostEntity(String title, String body, UserEntity user) {
+    @Builder
+    public PostEntity(Long id, String title, String body, UserEntity user) {
+        this.id = id;
         this.title = title;
         this.body = body;
         this.user = user;
     }
 
-    public static PostEntity of(String title, String body, UserEntity user) {
-        return new PostEntity(title, body, user);
+    public void edit(String title, String body) {
+        if (title != null) {
+            this.title = title;
+        }
+        if (body != null) {
+            this.body = body;
+        }
     }
 }

@@ -3,17 +3,20 @@ package com.family.hwang.controller.response;
 import com.family.hwang.model.User;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class UserSignUpResponse {
+public class UserResponse {
 
-    private String email;
+    private Long id;
     private String userName;
 
-    public static UserSignUpResponse fromUser(User user){
-        return new UserSignUpResponse(user.getEmail(), user.getUsername());
+    public static UserResponse fromUser(User user) {
+        return new UserResponse(
+                user.getId(),
+                user.getUsername()
+        );
     }
+
 }

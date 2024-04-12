@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalControllerAdvice {
 
     @ExceptionHandler(HwangFamilyException.class)
-    public ResponseEntity<?> applicationHandler(HwangFamilyException e){
+    public ResponseEntity<?> applicationHandler(HwangFamilyException e) {
         log.error("Error occurs {}", e.toString());
         return ResponseEntity
                 .status(e.getErrorCode().getStatus())
@@ -20,7 +20,7 @@ public class GlobalControllerAdvice {
     }
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<?> applicationHandler(RuntimeException e){
+    public ResponseEntity<?> applicationHandler(RuntimeException e) {
         log.error("Error occurs {}", e.toString());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(Response.error(ErrorCode.INTERNAL_SERVER_ERROR.name()));

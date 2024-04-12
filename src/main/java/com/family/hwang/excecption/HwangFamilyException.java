@@ -4,13 +4,12 @@ package com.family.hwang.excecption;
 import lombok.Getter;
 
 @Getter
-public class HwangFamilyException extends RuntimeException{
-
+public class HwangFamilyException extends RuntimeException {
 
     private ErrorCode errorCode;
     private String message;
 
-    public HwangFamilyException(ErrorCode errorCode,String message) {
+    public HwangFamilyException(ErrorCode errorCode, String message) {
         this.message = message;
         this.errorCode = errorCode;
     }

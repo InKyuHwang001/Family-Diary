@@ -26,7 +26,7 @@ public class User implements UserDetails {
     private Timestamp removedAt;
 
     @Builder
-    public User(Long id, String username, String password, String email, UserRole role, Timestamp registeredAt, Timestamp updatedAt, Timestamp removedAt) {
+    private User(Long id, String username, String password, String email, UserRole role, Timestamp registeredAt, Timestamp updatedAt, Timestamp removedAt) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -36,8 +36,6 @@ public class User implements UserDetails {
         this.updatedAt = updatedAt;
         this.removedAt = removedAt;
     }
-
-
 
 
     public static User fromEntity(UserEntity entity){
