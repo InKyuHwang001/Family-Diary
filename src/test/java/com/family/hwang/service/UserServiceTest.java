@@ -51,7 +51,7 @@ class UserServiceTest {
 
         when(userEntityRepository.findByUserName(userName)).thenReturn(Optional.empty());
         when(encoder.encode(password)).thenReturn("encrypt_password");
-        when(userEntityRepository.save(any())).thenReturn(UserEntityFixture.get(userName, password, email));
+        when(userEntityRepository.save(any())).thenReturn(UserEntityFixture.get(userName, password, email, 1L));
 
         assertDoesNotThrow(() -> userService.signup(request));
     }
@@ -68,7 +68,7 @@ class UserServiceTest {
                 .userName(userName)
                 .build();
 
-        UserEntity fixture = UserEntityFixture.get(userName, password, email);
+        UserEntity fixture = UserEntityFixture.get(userName, password, email, 1L);
 
 
         when(userEntityRepository.findByUserName(userName)).thenReturn(Optional.of(fixture));
@@ -91,7 +91,7 @@ class UserServiceTest {
                 .userName(userName)
                 .password(password)
                 .build();
-        UserEntity fixture = UserEntityFixture.get(userName, password);
+        UserEntity fixture = UserEntityFixture.get(userName, password, 1L);
 
         when(userEntityRepository.findByUserName(userName)).thenReturn(Optional.of(fixture));
         when(encoder.matches(password, fixture.getPassword())).thenReturn(true);
@@ -126,11 +126,13 @@ class UserServiceTest {
                 .userName(userName)
                 .password(wrongPassword)
                 .build();
-        UserEntity fixture = UserEntityFixture.get(userName, password);
+        UserEntity fixture = UserEntityFixture.get(userName, password, 1L);
 
         when(userEntityRepository.findByUserName(userName)).thenReturn(Optional.of(fixture));
         HwangFamilyException e = assertThrows(HwangFamilyException.class, () -> userService.login(wrongRequest));
         assertEquals(INVALID_PASSWORD, e.getErrorCode());
 
     }
+
+
 }
