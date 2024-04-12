@@ -6,10 +6,7 @@ import com.family.hwang.controller.response.PostResponse;
 import com.family.hwang.controller.response.Response;
 import com.family.hwang.model.Post;
 import com.family.hwang.service.PostService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,15 +37,5 @@ public class PostController {
 
         return Response.success();
     }
-    @GetMapping
-    public Response<Page<PostResponse>> list(Pageable pageable){
-        return Response.success(postService.list(pageable).map(PostResponse::fromPost));
-    }
-
-    @GetMapping("/my")
-    public Response<Page<PostResponse>> my(Pageable pageable, Authentication authentication){
-        return Response.success(postService.my(authentication.getName(), pageable).map(PostResponse::fromPost));
-    }
-
 
 }
