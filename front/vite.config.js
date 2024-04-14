@@ -17,7 +17,7 @@ export default defineConfig({
   },
   server:{
     proxy:{
-      "/api":{
+      "/inner":{
         target: "http://localhost:8080",
         rewrite: (path) => path.replace(/^\/inner/, "")
       }
