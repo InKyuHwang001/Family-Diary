@@ -1,13 +1,11 @@
 package com.family.hwang.service;
 
-import com.family.hwang.controller.request.UserLogInRequest;
-import com.family.hwang.controller.request.UserSignUpRequest;
-import com.family.hwang.excecption.ErrorCode;
+import com.family.hwang.controller.request.user.UserLogInRequest;
+import com.family.hwang.controller.request.user.UserSignUpRequest;
 import com.family.hwang.excecption.HwangFamilyException;
 import com.family.hwang.fixture.UserEntityFixture;
 import com.family.hwang.model.entity.UserEntity;
 import com.family.hwang.repository.UserEntityRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package com.family.hwang.controller.response;
+package com.family.hwang.controller.response.user;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

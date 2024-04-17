@@ -1,8 +1,8 @@
 package com.family.hwang.service;
 
-import com.family.hwang.controller.request.PostCreateRequest;
-import com.family.hwang.controller.request.PostModifyRequest;
-import com.family.hwang.excecption.ErrorCode;
+import com.family.hwang.controller.request.post.PostCreateRequest;
+import com.family.hwang.controller.request.post.PostModifyRequest;
+import com.family.hwang.controller.request.post.PostSearch;
 import com.family.hwang.excecption.HwangFamilyException;
 import com.family.hwang.model.Post;
 import com.family.hwang.model.entity.PostEntity;
@@ -14,6 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.family.hwang.excecption.ErrorCode.*;
 
@@ -27,7 +30,7 @@ public class PostService {
     @Transactional
     public void create(PostCreateRequest request, String userName) {
         //find user
-        UserEntity userEntity = getUserEntityOrExceptions(userName);
+        var userEntity = getUserEntityOrExceptions(userName);
 
         PostEntity entity = PostEntity.builder()
                 .title(request.getTitle())
@@ -63,6 +66,21 @@ public class PostService {
         postEntityRepository.delete(postEntity);
     }
 
+    public List<Post> list(PostSearch postSearch) {
+        return postEntityRepository.getList(postSearch).stream()
+                .map(Post::fromEntity)
+                .collect(Collectors.toList());
+
+    }
+
+    public Page<Post> my(String userName, PostSearch postSearch) {
+        UserEntity userEntity = getUserEntityOrExceptions(userName);
+
+//        return postEntityRepository.getListByUserName(userEntity, postSearch).map(Post::fromEntity);
+        return null;
+    }
+
+
     private UserEntity getUserEntityOrExceptions(String userName) {
         return userEntityRepository.findByUserName(userName).orElseThrow(() ->
                 new HwangFamilyException(USER_NOT_FOUND, String.format("%s not founded", userName)));
@@ -71,16 +89,6 @@ public class PostService {
     private PostEntity getPostEntityOrExceptions(Long postId) {
         return postEntityRepository.findById(postId).orElseThrow(() ->
                 new HwangFamilyException(POST_NOT_FOUND, String.format("%s not founded", postId)));
-    }
-
-    public Page<Post> list(Pageable pageable) {
-        return postEntityRepository.findAll(pageable).map(Post::fromEntity);
-    }
-
-    public Page<Post> my(String userName, Pageable pageable) {
-        UserEntity userEntity = getUserEntityOrExceptions(userName);
-
-        return postEntityRepository.findAllByUser(userEntity, pageable).map(Post::fromEntity);
     }
 
 }

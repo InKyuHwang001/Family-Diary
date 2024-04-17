@@ -1,7 +1,7 @@
 package com.family.hwang.controller;
 
-import com.family.hwang.controller.request.PostCreateRequest;
-import com.family.hwang.controller.request.PostModifyRequest;
+import com.family.hwang.controller.request.post.PostCreateRequest;
+import com.family.hwang.controller.request.post.PostModifyRequest;
 import com.family.hwang.excecption.HwangFamilyException;
 import com.family.hwang.service.PostService;
 import com.fasterxml.jackson.databind.ObjectMapper;

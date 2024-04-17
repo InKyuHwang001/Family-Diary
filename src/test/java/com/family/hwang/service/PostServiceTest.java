@@ -1,7 +1,7 @@
 package com.family.hwang.service;
 
-import com.family.hwang.controller.request.PostCreateRequest;
-import com.family.hwang.controller.request.PostModifyRequest;
+import com.family.hwang.controller.request.post.PostCreateRequest;
+import com.family.hwang.controller.request.post.PostModifyRequest;
 import com.family.hwang.excecption.ErrorCode;
 import com.family.hwang.excecption.HwangFamilyException;
 import com.family.hwang.fixture.PostEntityFixture;
@@ -193,5 +193,14 @@ class PostServiceTest {
         var exception = assertThrows(HwangFamilyException.class, () -> postService.delete(userName, postId));
         assertEquals(ErrorCode.INVALID_PERMISSION, exception.getErrorCode());
     }
+
+    /**
+     * 전체 글 리스트
+     */
+
+
+    /**
+     * 내 글 리스트
+     */
 
 }

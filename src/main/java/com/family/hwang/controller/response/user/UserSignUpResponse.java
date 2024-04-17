@@ -1,9 +1,8 @@
-package com.family.hwang.controller.response;
+package com.family.hwang.controller.response.user;
 
 import com.family.hwang.model.User;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter

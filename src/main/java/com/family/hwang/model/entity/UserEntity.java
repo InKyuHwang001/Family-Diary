@@ -1,7 +1,5 @@
 package com.family.hwang.model.entity;
 
-import com.family.hwang.controller.request.UserSignUpRequest;
-import com.family.hwang.model.User;
 import com.family.hwang.model.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,7 +16,7 @@ import static java.time.Instant.now;
 @SQLDelete(sql = "UPDATE \"user\" SET removed_at = NOW() WHERE id=?")
 @Where(clause = "removed_at is NULL")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserEntity {
+public class UserEntity extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,31 +33,19 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     private UserRole role = UserRole.USER;
 
-    @Column(name = "registered_at")
-    private Timestamp registeredAt;
 
-    @Column(name = "updated_at")
-    private Timestamp updatedAt;
-
-    @Column(name = "removed_at")
-    private Timestamp removedAt;
-
-    @PrePersist
-    void registeredAt(){
-        this.registeredAt = Timestamp.from(now());
-        this.updatedAt = Timestamp.from(now());
-    }
-
-    @PreUpdate
-    void updatedAt(){
-        this.updatedAt = Timestamp.from(now());
-    }
 
     @Builder
-    public UserEntity(Long id, String userName, String password, String email) {
+    public UserEntity(Long id, String userName, String password, String email, UserRole role, Timestamp registeredAt, Timestamp updatedAt, Timestamp removedAt) {
         this.id = id;
         this.userName = userName;
         this.password = password;
         this.email = email;
+        this.role = role;
+        this.registeredAt = registeredAt;
+        this.updatedAt = updatedAt;
+        this.removedAt = removedAt;
     }
+
+
 }

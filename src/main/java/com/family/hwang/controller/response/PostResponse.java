@@ -1,5 +1,6 @@
 package com.family.hwang.controller.response;
 
+import com.family.hwang.controller.response.user.UserResponse;
 import com.family.hwang.model.Post;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

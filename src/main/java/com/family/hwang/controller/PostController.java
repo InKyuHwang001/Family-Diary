@@ -1,7 +1,8 @@
 package com.family.hwang.controller;
 
-import com.family.hwang.controller.request.PostCreateRequest;
-import com.family.hwang.controller.request.PostModifyRequest;
+import com.family.hwang.controller.request.post.PostCreateRequest;
+import com.family.hwang.controller.request.post.PostModifyRequest;
+import com.family.hwang.controller.request.post.PostSearch;
 import com.family.hwang.controller.response.PostResponse;
 import com.family.hwang.controller.response.Response;
 import com.family.hwang.model.Post;
@@ -11,6 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/posts")
@@ -41,12 +45,16 @@ public class PostController {
     }
 
     @GetMapping
-    public Response<Page<PostResponse>> list(Pageable pageable){
-        return Response.success(postService.list(pageable).map(PostResponse::fromPost));
+    public Response<List<PostResponse>> list(PostSearch postSearch){
+        return Response.success(postService.list(postSearch).stream()
+                .map(PostResponse::fromPost)
+                .collect(Collectors.toList()));
     }
 
     @GetMapping("/my")
-    public Response<Page<PostResponse>> my(Pageable pageable, Authentication authentication){
-        return Response.success(postService.my(authentication.getName(), pageable).map(PostResponse::fromPost));
+    public Response<Page<PostResponse>> my(PostSearch postSearch, Authentication authentication){
+        return Response.success(postService.my(authentication.getName(), postSearch).map(PostResponse::fromPost));
     }
+
+
 }

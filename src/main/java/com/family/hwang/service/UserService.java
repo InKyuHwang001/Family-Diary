@@ -1,7 +1,7 @@
 package com.family.hwang.service;
 
-import com.family.hwang.controller.request.UserLogInRequest;
-import com.family.hwang.controller.request.UserSignUpRequest;
+import com.family.hwang.controller.request.user.UserLogInRequest;
+import com.family.hwang.controller.request.user.UserSignUpRequest;
 import com.family.hwang.excecption.ErrorCode;
 import com.family.hwang.excecption.HwangFamilyException;
 import com.family.hwang.model.User;
@@ -13,8 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 import static com.family.hwang.excecption.ErrorCode.*;
 
@@ -44,10 +42,13 @@ public class UserService {
             throw new HwangFamilyException(ErrorCode.DUPLICATED_USER_NAME, String.format("%s is duplicated", request.getUserName()));
         });
 
+        //encrypting password
+        String encryptedPassword = encoder.encode(request.getPassword());
+
         //sign up
         UserEntity entity = UserEntity.builder()
                 .userName(request.getUserName())
-                .password(encoder.encode(request.getPassword()))
+                .password(encryptedPassword)
                 .email(request.getEmail())
                 .build();
 

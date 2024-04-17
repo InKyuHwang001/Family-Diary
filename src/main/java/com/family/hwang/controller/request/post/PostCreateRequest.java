@@ -1,4 +1,4 @@
-package com.family.hwang.controller.request;
+package com.family.hwang.controller.request.post;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

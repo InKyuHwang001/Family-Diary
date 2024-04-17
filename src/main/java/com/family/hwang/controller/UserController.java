@@ -1,10 +1,10 @@
 package com.family.hwang.controller;
 
-import com.family.hwang.controller.request.UserLogInRequest;
-import com.family.hwang.controller.request.UserSignUpRequest;
+import com.family.hwang.controller.request.user.UserLogInRequest;
+import com.family.hwang.controller.request.user.UserSignUpRequest;
 import com.family.hwang.controller.response.Response;
-import com.family.hwang.controller.response.UserLoginResponse;
-import com.family.hwang.controller.response.UserSignUpResponse;
+import com.family.hwang.controller.response.user.UserLoginResponse;
+import com.family.hwang.controller.response.user.UserSignUpResponse;
 import com.family.hwang.model.User;
 import com.family.hwang.service.UserService;
 import lombok.RequiredArgsConstructor;
