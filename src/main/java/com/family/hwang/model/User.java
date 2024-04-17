@@ -18,7 +18,7 @@ public class User implements UserDetails {
     private String username;
     private String password;
     private String email;
-    private UserRole role = UserRole.USER;
+    private UserRole role;
 
 
     private Timestamp registeredAt;
