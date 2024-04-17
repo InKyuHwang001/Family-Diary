@@ -5,8 +5,10 @@ import com.family.hwang.controller.request.post.PostModifyRequest;
 import com.family.hwang.controller.request.post.PostSearch;
 import com.family.hwang.excecption.HwangFamilyException;
 import com.family.hwang.model.Post;
+import com.family.hwang.model.entity.LikeEntity;
 import com.family.hwang.model.entity.PostEntity;
 import com.family.hwang.model.entity.UserEntity;
+import com.family.hwang.repository.LikeEntityRepository;
 import com.family.hwang.repository.PostEntityRepository;
 import com.family.hwang.repository.UserEntityRepository;
 import jakarta.transaction.Transactional;
@@ -26,6 +28,7 @@ public class PostService {
 
     private final PostEntityRepository postEntityRepository;
     private final UserEntityRepository userEntityRepository;
+    private final LikeEntityRepository likeEntityRepository;
 
     @Transactional
     public void create(PostCreateRequest request, String userName) {
@@ -80,6 +83,28 @@ public class PostService {
         return null;
     }
 
+    @Transactional
+    public void like(Long postId, String userName) {
+        UserEntity userEntity = getUserEntityOrExceptions(userName);
+        PostEntity postEntity = getPostEntityOrExceptions(postId);
+
+        likeEntityRepository.findByUserAndPost(userEntity, postEntity).ifPresent(it -> {
+            throw new HwangFamilyException(ALREADY_LIKED_POST, String.format("userName %s already like the post %s", userName, postId));
+        });
+
+        var entity = LikeEntity.builder()
+                .user(userEntity)
+                .post(postEntity)
+                .build();
+
+        likeEntityRepository.save(entity);
+    }
+
+    public Long likeCount(Long postId) {
+        PostEntity postEntity = getPostEntityOrExceptions(postId);
+
+        return likeEntityRepository.countByPost(postEntity);
+    }
 
     private UserEntity getUserEntityOrExceptions(String userName) {
         return userEntityRepository.findByUserName(userName).orElseThrow(() ->
@@ -90,5 +115,4 @@ public class PostService {
         return postEntityRepository.findById(postId).orElseThrow(() ->
                 new HwangFamilyException(POST_NOT_FOUND, String.format("%s not founded", postId)));
     }
-
 }
