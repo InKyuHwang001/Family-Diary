@@ -4,9 +4,8 @@ import com.family.hwang.controller.request.post.PostCommentRequest;
 import com.family.hwang.controller.request.post.PostCreateRequest;
 import com.family.hwang.controller.request.post.PostModifyRequest;
 import com.family.hwang.controller.request.post.PostSearch;
-import com.family.hwang.excecption.HwangFamilyException;
-import com.family.hwang.model.Comment;
 import com.family.hwang.excecption.HwangFamilyRuntimeException;
+import com.family.hwang.model.Comment;
 import com.family.hwang.model.Post;
 import com.family.hwang.model.entity.CommentEntity;
 import com.family.hwang.model.entity.LikeEntity;
@@ -19,6 +18,7 @@ import com.family.hwang.repository.UserEntityRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -96,7 +96,7 @@ public class PostService {
         PostEntity postEntity = getPostEntityOrExceptions(postId);
 
         likeEntityRepository.findByUserAndPost(userEntity, postEntity).ifPresent(it -> {
-            throw new HwangFamilyException(ALREADY_LIKED_POST, String.format("userName %s already like the post %s", userName, postId));
+            throw new HwangFamilyRuntimeException(ALREADY_LIKED_POST, String.format("userName %s already like the post %s", userName, postId));
         });
 
         var entity = LikeEntity.builder()

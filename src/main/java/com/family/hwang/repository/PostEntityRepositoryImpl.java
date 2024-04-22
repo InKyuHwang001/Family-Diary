@@ -2,13 +2,13 @@ package com.family.hwang.repository;
 
 import com.family.hwang.controller.request.post.PostSearch;
 import com.family.hwang.model.entity.PostEntity;
-import com.family.hwang.model.entity.QPostEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 import static com.family.hwang.model.entity.QPostEntity.*;
+
 
 @RequiredArgsConstructor
 public class PostEntityRepositoryImpl implements PostEntityRepositoryCustom{

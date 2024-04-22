@@ -6,8 +6,6 @@ import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import java.sql.Timestamp;
-
 import static java.time.Instant.now;
 
 @Entity
@@ -16,7 +14,7 @@ import static java.time.Instant.now;
 @SQLDelete(sql = "UPDATE \"user\" SET removed_at = NOW() WHERE id=?")
 @Where(clause = "removed_at is NULL")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserEntity extends AbstractCommonTimestamp{
+public class UserEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

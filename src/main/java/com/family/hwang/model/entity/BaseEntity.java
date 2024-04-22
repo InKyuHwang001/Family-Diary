@@ -11,7 +11,7 @@ import java.time.Instant;
 
 @Getter
 @MappedSuperclass
-public abstract class AbstractCommonTimestamp {
+public abstract class BaseEntity {
     @Column(name = "registered_at")
     protected Timestamp registeredAt;
 
