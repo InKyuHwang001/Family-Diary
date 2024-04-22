@@ -2,7 +2,7 @@ package com.family.hwang.controller;
 
 import com.family.hwang.controller.request.post.PostCreateRequest;
 import com.family.hwang.controller.request.post.PostModifyRequest;
-import com.family.hwang.excecption.HwangFamilyException;
+import com.family.hwang.excecption.HwangFamilyRuntimeException;
 import com.family.hwang.service.PostService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -101,7 +101,7 @@ class PostControllerTest {
                 .body("body_1")
                 .build();
 
-        doThrow(new HwangFamilyException(INVALID_PERMISSION)).when(postService).modify(any(), any(), any());
+        doThrow(new HwangFamilyRuntimeException(INVALID_PERMISSION)).when(postService).modify(any(), any(), any());
 
         mockMvc.perform(put("/api/v1/posts/{postId}", 1L)
                         .contentType(APPLICATION_JSON)
@@ -118,7 +118,7 @@ class PostControllerTest {
                 .body("body_1")
                 .build();
 
-        doThrow(new HwangFamilyException(DATABASE_ERROR)).when(postService).modify(any(), any(), any());
+        doThrow(new HwangFamilyRuntimeException(DATABASE_ERROR)).when(postService).modify(any(), any(), any());
 
         mockMvc.perform(put("/api/v1/posts/{postId}", 1L)
                         .contentType(APPLICATION_JSON)
@@ -143,7 +143,7 @@ class PostControllerTest {
     @WithMockUser
     void 글삭제_실패_글이_작성되지_않은_경우() throws Exception {
 
-        doThrow(new HwangFamilyException(POST_NOT_FOUND)).when(postService).delete(any(), eq(1L));
+        doThrow(new HwangFamilyRuntimeException(POST_NOT_FOUND)).when(postService).delete(any(), eq(1L));
 
         mockMvc.perform(delete("/api/v1/posts/{postId}", 1L)
                         .header(HttpHeaders.AUTHORIZATION, "Bearer token")

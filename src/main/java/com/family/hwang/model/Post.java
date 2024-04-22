@@ -18,7 +18,6 @@ public class Post {
     private Timestamp updatedAt;
     private Timestamp removedAt;
 
-
     @Builder
     private Post(Long id, String title, String body, User user, Timestamp registeredAt, Timestamp updatedAt, Timestamp removedAt) {
         this.id = id;
@@ -29,6 +28,7 @@ public class Post {
         this.updatedAt = updatedAt;
         this.removedAt = removedAt;
     }
+
 
     public static Post fromEntity(PostEntity entity) {
         return Post.builder()

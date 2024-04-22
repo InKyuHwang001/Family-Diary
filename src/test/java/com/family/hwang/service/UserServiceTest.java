@@ -2,7 +2,7 @@ package com.family.hwang.service;
 
 import com.family.hwang.controller.request.user.UserLogInRequest;
 import com.family.hwang.controller.request.user.UserSignUpRequest;
-import com.family.hwang.excecption.HwangFamilyException;
+import com.family.hwang.excecption.HwangFamilyRuntimeException;
 import com.family.hwang.fixture.UserEntityFixture;
 import com.family.hwang.model.entity.UserEntity;
 import com.family.hwang.repository.UserEntityRepository;
@@ -73,7 +73,7 @@ class UserServiceTest {
         when(encoder.encode(password)).thenReturn("encrypt_password");
         when(userEntityRepository.save(any())).thenReturn(Optional.of(fixture));
 
-        HwangFamilyException e = assertThrows(HwangFamilyException.class, () -> userService.signup(request));
+        HwangFamilyRuntimeException e = assertThrows(HwangFamilyRuntimeException.class, () -> userService.signup(request));
         assertEquals(DUPLICATED_USER_NAME, e.getErrorCode());
     }
 
@@ -109,7 +109,7 @@ class UserServiceTest {
                 .build();
 
         when(userEntityRepository.findByUserName(userName)).thenReturn(Optional.empty());
-        HwangFamilyException e = assertThrows(HwangFamilyException.class, () -> userService.login(request));
+        HwangFamilyRuntimeException e = assertThrows(HwangFamilyRuntimeException.class, () -> userService.login(request));
         assertEquals(USER_NOT_FOUND, e.getErrorCode());
 
     }
@@ -127,7 +127,7 @@ class UserServiceTest {
         UserEntity fixture = UserEntityFixture.get(userName, password, 1L);
 
         when(userEntityRepository.findByUserName(userName)).thenReturn(Optional.of(fixture));
-        HwangFamilyException e = assertThrows(HwangFamilyException.class, () -> userService.login(wrongRequest));
+        HwangFamilyRuntimeException e = assertThrows(HwangFamilyRuntimeException.class, () -> userService.login(wrongRequest));
         assertEquals(INVALID_PASSWORD, e.getErrorCode());
 
     }

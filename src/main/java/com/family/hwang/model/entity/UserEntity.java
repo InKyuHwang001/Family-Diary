@@ -16,7 +16,7 @@ import static java.time.Instant.now;
 @SQLDelete(sql = "UPDATE \"user\" SET removed_at = NOW() WHERE id=?")
 @Where(clause = "removed_at is NULL")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserEntity extends BaseEntity{
+public class UserEntity extends AbstractCommonTimestamp{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,8 +33,6 @@ public class UserEntity extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private UserRole role = UserRole.USER;
 
-
-
     @Builder
     public UserEntity(Long id, String userName, String password, String email, UserRole role, Timestamp registeredAt, Timestamp updatedAt, Timestamp removedAt) {
         this.id = id;
@@ -46,6 +44,4 @@ public class UserEntity extends BaseEntity{
         this.updatedAt = updatedAt;
         this.removedAt = removedAt;
     }
-
-
 }

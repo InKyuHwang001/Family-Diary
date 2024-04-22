@@ -14,7 +14,7 @@ import java.time.Instant;
 @SQLDelete(sql = "UPDATE \"post\" SET removed_at = NOW() WHERE id=?")
 @Where(clause = "removed_at is NULL")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PostEntity extends BaseEntity{
+public class PostEntity extends AbstractCommonTimestamp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,7 +29,6 @@ public class PostEntity extends BaseEntity{
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-
     @Builder
     public PostEntity(Long id, String title, String body, UserEntity user, Timestamp registeredAt, Timestamp updatedAt, Timestamp removedAt) {
         this.id = id;
@@ -40,8 +39,6 @@ public class PostEntity extends BaseEntity{
         this.updatedAt = updatedAt;
         this.removedAt = removedAt;
     }
-
-
 
     public void edit(String title, String body) {
         if (title != null) {

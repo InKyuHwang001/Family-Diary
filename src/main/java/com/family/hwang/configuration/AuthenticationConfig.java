@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
 public class AuthenticationConfig {
 
@@ -25,24 +25,19 @@ public class AuthenticationConfig {
     private String key;
 
 
-    private static final String[] WHITE_LIST = {
-            "/api/*/users/signup",
-            "/api/*/users/login"
-    };
-
-
     @Bean
     protected SecurityFilterChain config(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
+        return http
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(WHITE_LIST).permitAll()
+                        .requestMatchers("/api/*/users/signup").permitAll()
+                        .requestMatchers("/api/*/users/login").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(STATELESS))
                 .addFilterBefore(new JwtTokenFilter(key, userService), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(e ->
-                        e.authenticationEntryPoint(new CustomAuthenticationEntryPoint()));
-
-        return http.build();
+                        e.authenticationEntryPoint(new CustomAuthenticationEntryPoint()))
+                .build();
     }
 }

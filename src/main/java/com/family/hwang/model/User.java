@@ -1,6 +1,7 @@
 package com.family.hwang.model;
 
 import com.family.hwang.model.entity.UserEntity;
+import jakarta.persistence.Column;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,12 +19,12 @@ public class User implements UserDetails {
     private String username;
     private String password;
     private String email;
-    private UserRole role = UserRole.USER;
-
+    private UserRole role;
 
     private Timestamp registeredAt;
     private Timestamp updatedAt;
     private Timestamp removedAt;
+
 
     @Builder
     private User(Long id, String username, String password, String email, UserRole role, Timestamp registeredAt, Timestamp updatedAt, Timestamp removedAt) {
@@ -37,8 +38,7 @@ public class User implements UserDetails {
         this.removedAt = removedAt;
     }
 
-
-    public static User fromEntity(UserEntity entity){
+    public static User fromEntity(UserEntity entity) {
         return User.builder()
                 .id(entity.getId())
                 .username(entity.getUserName())

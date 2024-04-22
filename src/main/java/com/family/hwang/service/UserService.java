@@ -3,7 +3,7 @@ package com.family.hwang.service;
 import com.family.hwang.controller.request.user.UserLogInRequest;
 import com.family.hwang.controller.request.user.UserSignUpRequest;
 import com.family.hwang.excecption.ErrorCode;
-import com.family.hwang.excecption.HwangFamilyException;
+import com.family.hwang.excecption.HwangFamilyRuntimeException;
 import com.family.hwang.model.User;
 import com.family.hwang.model.entity.UserEntity;
 import com.family.hwang.repository.UserEntityRepository;
@@ -31,7 +31,7 @@ public class UserService {
 
     public User loadUserByUserName(String userName){
         return userEntityRepository.findByUserName(userName).map(User::fromEntity).orElseThrow(()->
-                new HwangFamilyException(ErrorCode.USER_NOT_FOUND, String.format("%s not founded", userName)));
+                new HwangFamilyRuntimeException(ErrorCode.USER_NOT_FOUND, String.format("%s not founded", userName)));
     }
 
     @Transactional
@@ -39,7 +39,7 @@ public class UserService {
 
         //check whether userName is duplicated or not
         userEntityRepository.findByUserName(request.getUserName()).ifPresent(it -> {
-            throw new HwangFamilyException(ErrorCode.DUPLICATED_USER_NAME, String.format("%s is duplicated", request.getUserName()));
+            throw new HwangFamilyRuntimeException(ErrorCode.DUPLICATED_USER_NAME, String.format("%s is duplicated", request.getUserName()));
         });
 
         //encrypting password
@@ -60,10 +60,10 @@ public class UserService {
     public String login(UserLogInRequest request) {
 
         UserEntity userEntity = userEntityRepository.findByUserName(request.getUserName())
-                .orElseThrow(() -> new HwangFamilyException(USER_NOT_FOUND, String.format("%s not founded", request.getUserName())));
+                .orElseThrow(() -> new HwangFamilyRuntimeException(USER_NOT_FOUND, String.format("%s not founded", request.getUserName())));
 
         if (!encoder.matches(request.getPassword(), userEntity.getPassword())) {
-            throw new HwangFamilyException(INVALID_PASSWORD);
+            throw new HwangFamilyRuntimeException(INVALID_PASSWORD);
         }
 
         //TODO: 토큰 생성

@@ -3,7 +3,7 @@ package com.family.hwang.service;
 import com.family.hwang.controller.request.post.PostCreateRequest;
 import com.family.hwang.controller.request.post.PostModifyRequest;
 import com.family.hwang.controller.request.post.PostSearch;
-import com.family.hwang.excecption.HwangFamilyException;
+import com.family.hwang.excecption.HwangFamilyRuntimeException;
 import com.family.hwang.model.Post;
 import com.family.hwang.model.entity.PostEntity;
 import com.family.hwang.model.entity.UserEntity;
@@ -12,7 +12,6 @@ import com.family.hwang.repository.UserEntityRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,7 +46,7 @@ public class PostService {
         PostEntity postEntity = getPostEntityOrExceptions(postId);
 
         if (postEntity.getUser() != userEntity) {
-            throw new HwangFamilyException(INVALID_PERMISSION, String.format("user %s has no permission with post %d", userName, postId));
+            throw new HwangFamilyRuntimeException(INVALID_PERMISSION, String.format("user %s has no permission with post %d", userName, postId));
         }
 
         postEntity.edit(request.getTitle(), request.getBody());
@@ -60,7 +59,7 @@ public class PostService {
         PostEntity postEntity = getPostEntityOrExceptions(postId);
 
         if (postEntity.getUser() != userEntity) {
-            throw new HwangFamilyException(INVALID_PERMISSION, String.format("user %s has no permission with post %d", userName, postId));
+            throw new HwangFamilyRuntimeException(INVALID_PERMISSION, String.format("user %s has no permission with post %d", userName, postId));
         }
 
         postEntityRepository.delete(postEntity);
@@ -83,12 +82,12 @@ public class PostService {
 
     private UserEntity getUserEntityOrExceptions(String userName) {
         return userEntityRepository.findByUserName(userName).orElseThrow(() ->
-                new HwangFamilyException(USER_NOT_FOUND, String.format("%s not founded", userName)));
+                new HwangFamilyRuntimeException(USER_NOT_FOUND, String.format("%s not founded", userName)));
     }
 
     private PostEntity getPostEntityOrExceptions(Long postId) {
         return postEntityRepository.findById(postId).orElseThrow(() ->
-                new HwangFamilyException(POST_NOT_FOUND, String.format("%s not founded", postId)));
+                new HwangFamilyRuntimeException(POST_NOT_FOUND, String.format("%s not founded", postId)));
     }
 
 }

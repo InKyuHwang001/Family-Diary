@@ -3,7 +3,7 @@ package com.family.hwang.service;
 import com.family.hwang.controller.request.post.PostCreateRequest;
 import com.family.hwang.controller.request.post.PostModifyRequest;
 import com.family.hwang.excecption.ErrorCode;
-import com.family.hwang.excecption.HwangFamilyException;
+import com.family.hwang.excecption.HwangFamilyRuntimeException;
 import com.family.hwang.fixture.PostEntityFixture;
 import com.family.hwang.fixture.UserEntityFixture;
 import com.family.hwang.model.entity.PostEntity;
@@ -70,7 +70,7 @@ class PostServiceTest {
         when(userEntityRepository.findByUserName(userName)).thenReturn(Optional.empty());
         when(postEntityRepository.save(any())).thenReturn(mock(PostEntity.class));
 
-        var exception = assertThrows(HwangFamilyException.class, () -> postService.create(request, userName));
+        var exception = assertThrows(HwangFamilyRuntimeException.class, () -> postService.create(request, userName));
         assertEquals(ErrorCode.USER_NOT_FOUND, exception.getErrorCode());
     }
 
@@ -120,7 +120,7 @@ class PostServiceTest {
         when(postEntityRepository.findById(any())).thenReturn(Optional.empty());
 
 
-        var e = assertThrows(HwangFamilyException.class, () -> postService.modify(postId, request, userName));
+        var e = assertThrows(HwangFamilyRuntimeException.class, () -> postService.modify(postId, request, userName));
         assertEquals(ErrorCode.POST_NOT_FOUND, e.getErrorCode());
 
     }
@@ -144,7 +144,7 @@ class PostServiceTest {
         when(postEntityRepository.findById(any())).thenReturn(Optional.of(postEntity));
 
 
-        var e = assertThrows(HwangFamilyException.class, () -> postService.modify(postId, request, userName));
+        var e = assertThrows(HwangFamilyRuntimeException.class, () -> postService.modify(postId, request, userName));
         assertEquals(ErrorCode.INVALID_PERMISSION, e.getErrorCode());
     }
     /**
@@ -175,7 +175,7 @@ class PostServiceTest {
         when(userEntityRepository.findByUserName(userName)).thenReturn(Optional.of(userEntity));
         when(postEntityRepository.findById(postId)).thenReturn(Optional.empty());
 
-        var exception = assertThrows(HwangFamilyException.class, () -> postService.delete(userName, postId));
+        var exception = assertThrows(HwangFamilyRuntimeException.class, () -> postService.delete(userName, postId));
         assertEquals(ErrorCode.POST_NOT_FOUND, exception.getErrorCode());
     }
 
@@ -190,7 +190,7 @@ class PostServiceTest {
         when(userEntityRepository.findByUserName(userName)).thenReturn(Optional.of(writer));
         when(postEntityRepository.findById(postId)).thenReturn(Optional.of(postEntity));
 
-        var exception = assertThrows(HwangFamilyException.class, () -> postService.delete(userName, postId));
+        var exception = assertThrows(HwangFamilyRuntimeException.class, () -> postService.delete(userName, postId));
         assertEquals(ErrorCode.INVALID_PERMISSION, exception.getErrorCode());
     }
 

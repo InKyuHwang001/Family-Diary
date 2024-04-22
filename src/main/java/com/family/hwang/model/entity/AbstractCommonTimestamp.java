@@ -1,6 +1,9 @@
 package com.family.hwang.model.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import lombok.Getter;
 
 import java.sql.Timestamp;
@@ -8,8 +11,7 @@ import java.time.Instant;
 
 @Getter
 @MappedSuperclass
-public abstract class BaseEntity {
-
+public abstract class AbstractCommonTimestamp {
     @Column(name = "registered_at")
     protected Timestamp registeredAt;
 
@@ -18,6 +20,7 @@ public abstract class BaseEntity {
 
     @Column(name = "removed_at")
     protected Timestamp removedAt;
+
 
     @PrePersist
     void registeredAt() {
@@ -29,3 +32,4 @@ public abstract class BaseEntity {
         this.updatedAt = Timestamp.from(Instant.now());
     }
 }
+

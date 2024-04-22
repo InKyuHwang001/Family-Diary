@@ -7,6 +7,7 @@ import com.family.hwang.controller.response.user.UserLoginResponse;
 import com.family.hwang.controller.response.user.UserSignUpResponse;
 import com.family.hwang.model.User;
 import com.family.hwang.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +22,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public Response<UserSignUpResponse> signup (@RequestBody UserSignUpRequest request){
+    public Response<UserSignUpResponse> signup (@RequestBody @Valid UserSignUpRequest request){
         User user = userService.signup(request);
 
         return Response.success(UserSignUpResponse.fromUser(user));
@@ -29,7 +30,7 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public Response<UserLoginResponse> login(@RequestBody UserLogInRequest request) {
+    public Response<UserLoginResponse> login(@RequestBody @Valid UserLogInRequest request) {
         String token = userService.login(request);
 
         return Response.success(UserLoginResponse.fromString(token));
