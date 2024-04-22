@@ -30,14 +30,11 @@ public class PostEntity extends AbstractCommonTimestamp {
     private UserEntity user;
 
     @Builder
-    public PostEntity(Long id, String title, String body, UserEntity user, Timestamp registeredAt, Timestamp updatedAt, Timestamp removedAt) {
+    public PostEntity(Long id, String title, String body, UserEntity user) {
         this.id = id;
         this.title = title;
         this.body = body;
         this.user = user;
-        this.registeredAt = registeredAt;
-        this.updatedAt = updatedAt;
-        this.removedAt = removedAt;
     }
 
     public void edit(String title, String body) {

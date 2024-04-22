@@ -34,14 +34,11 @@ public class UserEntity extends AbstractCommonTimestamp{
     private UserRole role = UserRole.USER;
 
     @Builder
-    public UserEntity(Long id, String userName, String password, String email, UserRole role, Timestamp registeredAt, Timestamp updatedAt, Timestamp removedAt) {
+    public UserEntity(Long id, String userName, String password, String email, UserRole role) {
         this.id = id;
         this.userName = userName;
         this.password = password;
         this.email = email;
         this.role = role;
-        this.registeredAt = registeredAt;
-        this.updatedAt = updatedAt;
-        this.removedAt = removedAt;
     }
 }

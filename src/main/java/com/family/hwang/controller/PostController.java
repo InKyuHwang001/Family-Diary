@@ -3,8 +3,11 @@ package com.family.hwang.controller;
 import com.family.hwang.controller.request.post.PostCreateRequest;
 import com.family.hwang.controller.request.post.PostModifyRequest;
 import com.family.hwang.controller.request.post.PostSearch;
+import com.family.hwang.controller.request.post.PostCommentRequest;
+import com.family.hwang.controller.response.CommentResponse;
 import com.family.hwang.controller.response.PostResponse;
 import com.family.hwang.controller.response.Response;
+import com.family.hwang.model.Comment;
 import com.family.hwang.model.Post;
 import com.family.hwang.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -38,23 +41,44 @@ public class PostController {
     }
 
     @DeleteMapping("/{postId}")
-    public Response<Void> delete(@PathVariable Long postId, Authentication authentication){
+    public Response<Void> delete(@PathVariable Long postId, Authentication authentication) {
         postService.delete(authentication.getName(), postId);
 
         return Response.success();
     }
 
     @GetMapping
-    public Response<List<PostResponse>> list(PostSearch postSearch){
+    public Response<List<PostResponse>> list(PostSearch postSearch) {
         return Response.success(postService.list(postSearch).stream()
                 .map(PostResponse::fromPost)
                 .collect(Collectors.toList()));
     }
 
     @GetMapping("/my")
-    public Response<Page<PostResponse>> my(PostSearch postSearch, Authentication authentication){
+    public Response<Page<PostResponse>> my(PostSearch postSearch, Authentication authentication) {
         return Response.success(postService.my(authentication.getName(), postSearch).map(PostResponse::fromPost));
     }
 
+    @PostMapping("/{postId}/likes")
+    public Response<Void> like(@PathVariable Long postId, Authentication authentication) {
+        postService.like(postId, authentication.getName());
+        return Response.success();
+    }
 
+    @GetMapping("/{postId}/likes")
+    public Response<Long> likeCount(@PathVariable Long postId) {
+
+        return Response.success(postService.likeCount(postId));
+    }
+
+    @PostMapping("/{postId}/comments")
+    public Response<Void> comment(@PathVariable Long postId, @RequestBody PostCommentRequest request, Authentication authentication) {
+        postService.comment(postId, request, authentication.getName());
+        return Response.success();
+    }
+
+    @GetMapping("/{postId}/comments")
+    public Response<Page<CommentResponse>> comment(@PathVariable Long postId, Pageable pageable) {
+        return Response.success(postService.getComment(postId, pageable).map(CommentResponse::fromComment));
+    }
 }
