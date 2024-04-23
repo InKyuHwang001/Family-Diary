@@ -1,8 +1,10 @@
 package com.family.hwang.excecption;
 
 import com.family.hwang.controller.response.Response;
+import com.family.hwang.controller.response.ValidationErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -17,9 +19,16 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> applicationHandler(MethodArgumentNotValidException e) {
         log.error("Error occurs {}", e.toString());
+
+        ValidationErrorResponse response = ValidationErrorResponse.builder().build();
+
+        for (FieldError fieldError : e.getFieldErrors()) {
+            response.addValidation(fieldError.getField(), fieldError.getDefaultMessage());
+        }
+
         return ResponseEntity
                 .status(ErrorCode.INVALID_INPUT.getStatus())
-                .body(Response.error(ErrorCode.INVALID_INPUT.name()));
+                .body(Response.error(ErrorCode.INVALID_INPUT.name(), response));
     }
 
     @ExceptionHandler(HwangFamilyRuntimeException.class)

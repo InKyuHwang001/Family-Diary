@@ -10,15 +10,15 @@ import org.hibernate.validator.constraints.Length;
 @Getter
 public class UserSignUpRequest {
 
-    @NotBlank
-    @Length(min = 5, max = 20)
+    @NotBlank(message = "user name is not blank")
+    @Length(min = 5, max = 20, message = "user name length is between 5 and 20")
     private String userName;
 
-    @Email
+    @Email(message = "email is not fit with policy")
     private String email;
 
-    @NotBlank
-    @Length(min = 5, max = 20)
+    @NotBlank(message = "password is not blank")
+    @Length(min = 5, max = 20, message = "password length is between 5 and 20")
     private String password;
 
 

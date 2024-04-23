@@ -22,6 +22,10 @@ public class Response<T> {
         return new Response<Void>(resultCode, null);
     }
 
+    public static <T>  Response<T>  error(String resultCode, T result) {
+        return new Response<T>(resultCode, result);
+    }
+
     public String toStream() {
         if (result == null) {
             return "{" +
