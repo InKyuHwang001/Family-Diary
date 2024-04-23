@@ -55,8 +55,10 @@ public class PostController {
     }
 
     @GetMapping("/my")
-    public Response<Page<PostResponse>> my(PostSearch postSearch, Authentication authentication) {
-        return Response.success(postService.my(authentication.getName(), postSearch).map(PostResponse::fromPost));
+    public Response<List<PostResponse>> my(PostSearch postSearch, Authentication authentication) {
+        return Response.success(postService.my(authentication.getName(), postSearch).stream()
+                .map(PostResponse::fromPost)
+                .collect(Collectors.toList()));
     }
 
     @PostMapping("/{postId}/likes")

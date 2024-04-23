@@ -15,11 +15,11 @@ import com.family.hwang.repository.CommentEntityRepository;
 import com.family.hwang.repository.LikeEntityRepository;
 import com.family.hwang.repository.PostEntityRepository;
 import com.family.hwang.repository.UserEntityRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 import static com.family.hwang.excecption.ErrorCode.*;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class PostService {
 
@@ -83,11 +84,11 @@ public class PostService {
 
     }
 
-    public Page<Post> my(String userName, PostSearch postSearch) {
+    public List<Post> my(String userName, PostSearch postSearch) {
         UserEntity userEntity = getUserEntityOrExceptions(userName);
-
-//        return postEntityRepository.getListByUserName(userEntity, postSearch).map(Post::fromEntity);
-        return null;
+        return postEntityRepository.getListByUserName(userEntity, postSearch).stream()
+                .map(Post::fromEntity)
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -135,6 +136,7 @@ public class PostService {
 
     /**
      * Whether user exist or not
+     *
      * @param userName
      * @return UserEntity
      */
@@ -146,6 +148,7 @@ public class PostService {
 
     /**
      * Whether post exist or not
+     *
      * @param postId
      * @return PostEntity
      */

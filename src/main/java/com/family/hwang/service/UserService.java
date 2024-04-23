@@ -8,16 +8,17 @@ import com.family.hwang.model.User;
 import com.family.hwang.model.entity.UserEntity;
 import com.family.hwang.repository.UserEntityRepository;
 import com.family.hwang.util.JwtTokenUtils;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.family.hwang.excecption.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserService {
 
     private final UserEntityRepository userEntityRepository;
@@ -57,6 +58,7 @@ public class UserService {
         return User.fromEntity(saved);
     }
 
+    @Transactional
     public String login(UserLogInRequest request) {
 
         UserEntity userEntity = userEntityRepository.findByUserName(request.getUserName())
@@ -66,7 +68,6 @@ public class UserService {
             throw new HwangFamilyRuntimeException(INVALID_PASSWORD);
         }
 
-        //TODO: 토큰 생성
         String token = JwtTokenUtils.generateToken(request.getUserName(), secretKey, expiredTimeMs);
 
         return token;
