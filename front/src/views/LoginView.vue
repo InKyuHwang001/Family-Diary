@@ -15,7 +15,8 @@ const login = function () {
         userName: userName.value
       })
       .then(() => {
-        router.replace({name: "home"})
+        alert("성공")
+        //router.replace({name: "home"})
       })
 }
 </script>

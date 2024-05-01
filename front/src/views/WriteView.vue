@@ -15,7 +15,8 @@ const write = function (){
             body: body.value
       })
       .then(() => {
-        router.replace({name:"home"})
+        alert("성공")
+        //router.replace({name:"home"})
       })
 }
 </script>

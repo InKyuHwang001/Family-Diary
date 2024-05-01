@@ -5,6 +5,7 @@ import com.family.hwang.controller.request.user.UserSignUpRequest;
 import com.family.hwang.excecption.ErrorCode;
 import com.family.hwang.excecption.HwangFamilyRuntimeException;
 import com.family.hwang.model.User;
+import com.family.hwang.model.UserRole;
 import com.family.hwang.model.entity.UserEntity;
 import com.family.hwang.repository.UserEntityRepository;
 import com.family.hwang.util.JwtTokenUtils;
@@ -51,6 +52,7 @@ public class UserService {
                 .userName(request.getUserName())
                 .password(encryptedPassword)
                 .email(request.getEmail())
+                .role(UserRole.USER)
                 .build();
 
         UserEntity saved = userEntityRepository.save(entity);
